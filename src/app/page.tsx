@@ -17,16 +17,16 @@ export default function Home() {
 
         <div className="flex flex-wrap items-center justify-center gap-4">
           <a
-            href="#"
+            href="/register"
             className="rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#1b8bc0]"
           >
             Get Started
           </a>
           <a
-            href="#"
+            href="/login"
             className="rounded-full border border-navy/15 px-6 py-3 text-sm font-semibold text-navy transition-colors hover:bg-navy/5"
           >
-            Browse Repository
+            Log In
           </a>
         </div>
 
