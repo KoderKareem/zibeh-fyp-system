@@ -38,5 +38,12 @@ export async function login(
     };
   }
 
+  await supabase.from("audit_logs").insert({
+    actor_id: data.user.id,
+    action: "auth.login",
+    entity_type: "profile",
+    entity_id: data.user.id,
+  });
+
   redirect(`/${profile.role}`);
 }

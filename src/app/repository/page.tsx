@@ -1,9 +1,5 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { createAdminClient } from "@/lib/supabase/admin";
-
-const DOCUMENT_BUCKET = "project-documents";
-const SIGNED_URL_TTL_SECONDS = 60 * 10;
 
 type Department = { id: string; name: string };
 type Session = { id: string; label: string };
@@ -18,15 +14,6 @@ type Project = {
   department: { name: string } | null;
   session: { label: string } | null;
 };
-
-async function getSignedDownloadUrl(path: string) {
-  const admin = createAdminClient();
-  const { data, error } = await admin.storage
-    .from(DOCUMENT_BUCKET)
-    .createSignedUrl(path, SIGNED_URL_TTL_SECONDS);
-  if (error) return null;
-  return data.signedUrl;
-}
 
 export default async function RepositoryPage(props: PageProps<"/repository">) {
   const params = await props.searchParams;
@@ -81,14 +68,6 @@ export default async function RepositoryPage(props: PageProps<"/repository">) {
 
   const { data: projects } = await query.returns<Project[]>();
   const results = projects ?? [];
-
-  const downloadUrls = await Promise.all(
-    results.map((project) => {
-      const canView = project.access_level === "public" || isLoggedIn;
-      if (!canView || !project.document_path) return Promise.resolve(null);
-      return getSignedDownloadUrl(project.document_path);
-    }),
-  );
 
   return (
     <div className="flex flex-1 flex-col bg-white">
@@ -206,9 +185,9 @@ export default async function RepositoryPage(props: PageProps<"/repository">) {
           {results.length === 0 ? (
             <p className="text-sm text-navy/70">No projects match your search.</p>
           ) : (
-            results.map((project, i) => {
+            results.map((project) => {
               const canView = project.access_level === "public" || isLoggedIn;
-              const downloadUrl = downloadUrls[i];
+              const canDownload = canView && !!project.document_path;
               return (
                 <div key={project.id} className="rounded-card bg-card p-6">
                   <div className="flex flex-wrap items-start justify-between gap-2">
@@ -232,9 +211,9 @@ export default async function RepositoryPage(props: PageProps<"/repository">) {
                     </p>
                   )}
 
-                  {downloadUrl ? (
+                  {canDownload ? (
                     <a
-                      href={downloadUrl}
+                      href={`/repository/download/${project.id}`}
                       className="mt-3 inline-block rounded-full border border-navy/15 px-4 py-2 text-sm font-semibold text-navy hover:bg-navy/5"
                     >
                       Download full document

@@ -31,6 +31,11 @@ const sections = [
     title: "Reports",
     description: "Submissions per session, approval rate, and most active supervisors.",
   },
+  {
+    href: "/admin/audit",
+    title: "Audit log",
+    description: "Logins, package decisions, and document downloads — who did what, and when.",
+  },
 ];
 
 export default function AdminPage() {
