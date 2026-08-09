@@ -1,11 +1,15 @@
+import Link from "next/link";
+
 export default function SupervisorPage() {
   return (
-    <div className="rounded-card bg-card-secondary p-6">
-      <h2 className="text-lg text-navy">Welcome</h2>
+    <Link
+      href="/supervisor/dashboard"
+      className="block rounded-card bg-card-secondary p-6 transition-colors hover:bg-card-secondary/70"
+    >
+      <h2 className="text-lg text-navy">Submission packages</h2>
       <p className="mt-2 text-sm text-navy/70">
-        Submission packages from your assigned students will show up here for
-        review.
+        Review packages from your assigned students — approve one topic or reject the whole set.
       </p>
-    </div>
+    </Link>
   );
 }
