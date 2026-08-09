@@ -22,7 +22,7 @@ function SubmitButtons({ canApprove }: { canApprove: boolean }) {
         name="decision"
         value="approve"
         disabled={pending || !canApprove}
-        className="rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#1b8bc0] disabled:opacity-50"
+        className="rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-hover disabled:opacity-50"
       >
         {pending ? "Saving…" : "Approve selected topic"}
       </button>

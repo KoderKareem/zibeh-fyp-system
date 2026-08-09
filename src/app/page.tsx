@@ -1,7 +1,11 @@
+import { SiteHeader } from "@/components/site-header";
+
 export default function Home() {
   return (
-    <div className="flex flex-1 flex-col items-center bg-white px-6 py-16">
-      <div className="w-full max-w-3xl flex flex-col items-center gap-10 text-center">
+    <div className="flex flex-1 flex-col bg-white">
+      <SiteHeader />
+      <div className="flex flex-1 flex-col items-center px-6 py-16">
+        <div className="w-full max-w-3xl flex flex-col items-center gap-10 text-center">
         <div className="flex flex-col items-center gap-3">
           <span className="text-sm font-semibold uppercase tracking-widest text-primary">
             — Zibeh Institute of Technology —
@@ -18,7 +22,7 @@ export default function Home() {
         <div className="flex flex-wrap items-center justify-center gap-4">
           <a
             href="/register"
-            className="rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#1b8bc0]"
+            className="rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-hover"
           >
             Get Started
           </a>
@@ -51,6 +55,7 @@ export default function Home() {
               feedback for your students.
             </p>
           </div>
+        </div>
         </div>
       </div>
     </div>

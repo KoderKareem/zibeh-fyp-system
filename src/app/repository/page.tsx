@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { SiteHeader } from "@/components/site-header";
 
 type Department = { id: string; name: string };
 type Session = { id: string; label: string };
@@ -71,27 +72,7 @@ export default async function RepositoryPage(props: PageProps<"/repository">) {
 
   return (
     <div className="flex flex-1 flex-col bg-white">
-      <header className="flex items-center justify-between border-b border-navy/10 px-6 py-4 sm:px-10">
-        <div>
-          <span className="text-xs font-semibold uppercase tracking-widest text-primary">
-            Zibeh FYP Repository
-          </span>
-          <h1 className="text-xl text-navy">Project Repository</h1>
-        </div>
-        <div className="flex items-center gap-4">
-          <Link href="/" className="text-sm font-semibold text-navy/70 hover:text-navy">
-            Home
-          </Link>
-          {!isLoggedIn ? (
-            <Link
-              href="/login"
-              className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-[#1b8bc0]"
-            >
-              Log in
-            </Link>
-          ) : null}
-        </div>
-      </header>
+      <SiteHeader title="Project Repository" />
 
       <main className="flex-1 px-6 py-8 sm:px-10">
         <form method="get" className="rounded-card bg-card-secondary p-5">
@@ -171,7 +152,7 @@ export default async function RepositoryPage(props: PageProps<"/repository">) {
           <div className="mt-4 flex items-center gap-4">
             <button
               type="submit"
-              className="rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-white hover:bg-[#1b8bc0]"
+              className="rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-white hover:bg-primary-hover"
             >
               Search
             </button>
@@ -191,7 +172,11 @@ export default async function RepositoryPage(props: PageProps<"/repository">) {
               return (
                 <div key={project.id} className="rounded-card bg-card p-6">
                   <div className="flex flex-wrap items-start justify-between gap-2">
-                    <h2 className="text-lg text-navy">{project.title}</h2>
+                    <h2 className="text-lg text-navy">
+                      <Link href={`/repository/${project.id}`} className="hover:underline">
+                        {project.title}
+                      </Link>
+                    </h2>
                     <span className="text-xs text-navy/50">
                       {project.department?.name ?? "—"}
                       {project.session ? ` · ${project.session.label}` : ""}

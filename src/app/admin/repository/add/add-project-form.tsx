@@ -60,6 +60,22 @@ export function AddProjectForm({
       </div>
 
       <div className="flex flex-col gap-1.5">
+        <label htmlFor="authorName" className="text-sm font-medium text-navy">
+          Author name
+        </label>
+        <input
+          id="authorName"
+          name="authorName"
+          type="text"
+          placeholder="e.g. the student who wrote it"
+          className={inputClasses}
+        />
+        <p className="text-xs text-navy/50">
+          Used for citations — there&apos;s no student account tied to a backfilled entry.
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-1.5">
         <label htmlFor="abstract" className="text-sm font-medium text-navy">
           Abstract
         </label>

@@ -19,6 +19,7 @@ export async function addArchivalProject(
   formData: FormData,
 ): Promise<AddProjectState> {
   const title = String(formData.get("title") ?? "").trim();
+  const authorName = String(formData.get("authorName") ?? "").trim();
   const abstract = String(formData.get("abstract") ?? "").trim();
   const keywords = String(formData.get("keywords") ?? "")
     .split(",")
@@ -68,6 +69,7 @@ export async function addArchivalProject(
 
   const { error } = await supabase.from("repository_projects").insert({
     title,
+    author_name: authorName || null,
     abstract: abstract || null,
     keywords,
     department_id: departmentId,

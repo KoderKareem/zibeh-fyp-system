@@ -43,7 +43,7 @@ export default async function AdminSessionsPage(props: PageProps<"/admin/session
               className={`rounded-full px-5 py-2.5 text-sm font-semibold ${
                 submissionsOpen
                   ? "border border-red-200 text-red-600 hover:bg-red-50"
-                  : "bg-primary text-white hover:bg-[#1b8bc0]"
+                  : "bg-primary text-white hover:bg-primary-hover"
               }`}
             >
               {submissionsOpen ? "Close submissions" : "Open submissions"}

@@ -8,7 +8,7 @@ export default async function AdminLayout({
 
   return (
     <div className="flex flex-1 flex-col bg-white">
-      <DashboardHeader heading="Admin Dashboard" fullName={profile.full_name} />
+      <DashboardHeader heading="Admin Dashboard" fullName={profile.full_name} homeHref="/admin" />
       <main className="flex-1 px-6 py-8 sm:px-10">{children}</main>
     </div>
   );

@@ -8,7 +8,7 @@ export default async function SupervisorLayout({
 
   return (
     <div className="flex flex-1 flex-col bg-white">
-      <DashboardHeader heading="Supervisor Dashboard" fullName={profile.full_name} />
+      <DashboardHeader heading="Supervisor Dashboard" fullName={profile.full_name} homeHref="/supervisor" />
       <main className="flex-1 px-6 py-8 sm:px-10">{children}</main>
     </div>
   );
