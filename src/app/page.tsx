@@ -28,6 +28,12 @@ export default function Home() {
           >
             Log In
           </a>
+          <a
+            href="/repository"
+            className="rounded-full border border-navy/15 px-6 py-3 text-sm font-semibold text-navy transition-colors hover:bg-navy/5"
+          >
+            Browse Repository
+          </a>
         </div>
 
         <div className="grid w-full gap-4 sm:grid-cols-2">
