@@ -32,8 +32,21 @@ function TopicFields({ n }: { n: 1 | 2 | 3 }) {
           />
         </div>
         <div className="flex flex-col gap-1.5">
+          <label htmlFor={`topic${n}_case_study`} className="text-sm font-medium text-navy">
+            Case Study
+          </label>
+          <input
+            id={`topic${n}_case_study`}
+            name={`topic${n}_case_study`}
+            type="text"
+            required
+            placeholder="e.g. Zibeh Institute of Technology, Jos"
+            className={inputClasses}
+          />
+        </div>
+        <div className="flex flex-col gap-1.5">
           <label htmlFor={`topic${n}_description`} className="text-sm font-medium text-navy">
-            Short description
+            Abstract
           </label>
           <textarea
             id={`topic${n}_description`}
@@ -44,7 +57,7 @@ function TopicFields({ n }: { n: 1 | 2 | 3 }) {
         </div>
         <div className="flex flex-col gap-1.5">
           <label htmlFor={`topic${n}_keywords`} className="text-sm font-medium text-navy">
-            Keywords (comma-separated)
+            Keywords (comma-separated, optional)
           </label>
           <input
             id={`topic${n}_keywords`}

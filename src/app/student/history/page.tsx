@@ -6,6 +6,7 @@ type Topic = {
   id: string;
   topic_number: number;
   title: string;
+  case_study: string | null;
   description: string | null;
   keywords: string[];
 };
@@ -33,7 +34,7 @@ export default async function StudentHistoryPage() {
       `id, status, supervisor_comment, created_at, approved_topic_id,
        session:academic_sessions(label),
        supervisor:profiles!submission_packages_supervisor_id_fkey(full_name),
-       topics:submission_topics!submission_topics_package_id_fkey(id, topic_number, title, description, keywords)`,
+       topics:submission_topics!submission_topics_package_id_fkey(id, topic_number, title, case_study, description, keywords)`,
     )
     .eq("student_id", user!.id)
     .order("created_at", { ascending: false })
@@ -93,6 +94,9 @@ export default async function StudentHistoryPage() {
                       </span>
                     ) : null}
                   </p>
+                  {topic.case_study ? (
+                    <p className="mt-1 text-xs font-medium text-navy/60">{topic.case_study}</p>
+                  ) : null}
                   {topic.description ? (
                     <p className="mt-1 text-xs text-navy/70">{topic.description}</p>
                   ) : null}

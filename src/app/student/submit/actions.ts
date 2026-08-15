@@ -18,12 +18,13 @@ export type SubmitState =
 
 function readTopic(formData: FormData, n: number) {
   const title = String(formData.get(`topic${n}_title`) ?? "").trim();
+  const caseStudy = String(formData.get(`topic${n}_case_study`) ?? "").trim();
   const description = String(formData.get(`topic${n}_description`) ?? "").trim();
   const keywords = String(formData.get(`topic${n}_keywords`) ?? "")
     .split(",")
     .map((k) => k.trim())
     .filter(Boolean);
-  return { title, description, keywords };
+  return { title, caseStudy, description, keywords };
 }
 
 export async function submitPackage(
@@ -36,6 +37,9 @@ export async function submitPackage(
   for (const [i, topic] of topics.entries()) {
     if (!topic.title) {
       return { error: `Enter a title for topic ${i + 1}.` };
+    }
+    if (!topic.caseStudy) {
+      return { error: `Enter a case study for topic ${i + 1}.` };
     }
   }
 
@@ -67,6 +71,7 @@ export async function submitPackage(
   const { error } = await supabase.rpc("submit_submission_package", {
     p_topics: topics.map((t) => ({
       title: t.title,
+      case_study: t.caseStudy,
       description: t.description,
       keywords: t.keywords,
     })),
