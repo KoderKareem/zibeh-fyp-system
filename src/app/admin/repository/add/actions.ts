@@ -20,6 +20,7 @@ export async function addArchivalProject(
 ): Promise<AddProjectState> {
   const title = String(formData.get("title") ?? "").trim();
   const authorName = String(formData.get("authorName") ?? "").trim();
+  const caseStudy = String(formData.get("caseStudy") ?? "").trim();
   const abstract = String(formData.get("abstract") ?? "").trim();
   const keywords = String(formData.get("keywords") ?? "")
     .split(",")
@@ -34,6 +35,9 @@ export async function addArchivalProject(
 
   if (!title) {
     return { error: "Title is required." };
+  }
+  if (!caseStudy) {
+    return { error: "Case study is required." };
   }
   if (accessLevel !== "public" && accessLevel !== "restricted") {
     return { error: "Invalid access level." };
@@ -70,6 +74,7 @@ export async function addArchivalProject(
   const { error } = await supabase.from("repository_projects").insert({
     title,
     author_name: authorName || null,
+    case_study: caseStudy,
     abstract: abstract || null,
     keywords,
     department_id: departmentId,
@@ -80,6 +85,7 @@ export async function addArchivalProject(
     document_path: documentPath,
     access_level: accessLevel,
     source: "admin_backfill",
+    review_status: "approved",
     added_by: user!.id,
   });
 

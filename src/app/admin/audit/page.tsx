@@ -5,6 +5,8 @@ const ACTION_LABEL: Record<string, string> = {
   "submission_package.approved": "Approved a package",
   "submission_package.rejected": "Rejected a package",
   "repository_project.document_downloaded": "Downloaded a document",
+  "repository_project.approved": "Approved a final project",
+  "repository_project.rejected": "Rejected a final project",
 };
 
 type AuditLog = {

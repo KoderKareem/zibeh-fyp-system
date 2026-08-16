@@ -23,11 +23,11 @@ export async function GET(
 
   const { data: project } = await supabase
     .from("repository_projects")
-    .select("title, access_level, document_path")
+    .select("title, access_level, review_status, document_path")
     .eq("id", id)
     .maybeSingle();
 
-  if (!project || !project.document_path) {
+  if (!project || !project.document_path || project.review_status !== "approved") {
     return new NextResponse("Not found", { status: 404 });
   }
 

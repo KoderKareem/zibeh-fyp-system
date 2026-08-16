@@ -9,9 +9,11 @@ import { buildApaCitation, buildIeeeCitation } from "@/lib/citation";
 type Project = {
   id: string;
   title: string;
+  case_study: string | null;
   abstract: string | null;
   keywords: string[];
   access_level: "public" | "restricted";
+  review_status: "pending" | "approved" | "rejected";
   document_path: string | null;
   author_name: string | null;
   student_id: string | null;
@@ -31,7 +33,7 @@ export default async function RepositoryDetailPage(props: PageProps<"/repository
   const { data: project } = await supabase
     .from("repository_projects")
     .select(
-      `id, title, abstract, keywords, access_level, document_path, author_name, student_id, created_at,
+      `id, title, case_study, abstract, keywords, access_level, review_status, document_path, author_name, student_id, created_at,
        department:departments(name),
        session:academic_sessions(label)`,
     )
@@ -39,7 +41,7 @@ export default async function RepositoryDetailPage(props: PageProps<"/repository
     .maybeSingle()
     .returns<Project>();
 
-  if (!project) notFound();
+  if (!project || project.review_status !== "approved") notFound();
 
   let authorName = project.author_name;
   if (project.student_id) {
@@ -95,7 +97,12 @@ export default async function RepositoryDetailPage(props: PageProps<"/repository
 
           {canView ? (
             <>
-              <p className="mt-4 text-sm text-navy/80">
+              {project.case_study ? (
+                <p className="mt-4 text-sm font-semibold text-navy/70">
+                  Case Study: {project.case_study}
+                </p>
+              ) : null}
+              <p className={`${project.case_study ? "mt-2" : "mt-4"} text-sm text-navy/80`}>
                 {project.abstract || "No abstract provided."}
               </p>
               {project.keywords?.length ? (

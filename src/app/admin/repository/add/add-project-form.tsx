@@ -76,6 +76,20 @@ export function AddProjectForm({
       </div>
 
       <div className="flex flex-col gap-1.5">
+        <label htmlFor="caseStudy" className="text-sm font-medium text-navy">
+          Case Study
+        </label>
+        <input
+          id="caseStudy"
+          name="caseStudy"
+          type="text"
+          required
+          placeholder="e.g. Zibeh Institute of Technology, Jos"
+          className={inputClasses}
+        />
+      </div>
+
+      <div className="flex flex-col gap-1.5">
         <label htmlFor="abstract" className="text-sm font-medium text-navy">
           Abstract
         </label>

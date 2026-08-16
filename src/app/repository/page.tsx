@@ -60,6 +60,7 @@ export default async function RepositoryPage(props: PageProps<"/repository">) {
        department:departments(name),
        session:academic_sessions(label)`,
     )
+    .eq("review_status", "approved")
     .order("created_at", { ascending: false });
 
   if (q) query = query.ilike("title", `%${q}%`);

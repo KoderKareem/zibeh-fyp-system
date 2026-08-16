@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { DashboardCard } from "@/components/dashboard-card";
 
 const sections = [
   {
@@ -27,6 +27,11 @@ const sections = [
     description: "Backfill a past year's project into the repository directly.",
   },
   {
+    href: "/admin/repository/pending",
+    title: "Pending final projects",
+    description: "Review final project uploads before they're published to the repository.",
+  },
+  {
     href: "/admin/reports",
     title: "Reports",
     description: "Submissions per session, approval rate, and most active supervisors.",
@@ -42,14 +47,7 @@ export default function AdminPage() {
   return (
     <div className="grid gap-4 sm:grid-cols-2">
       {sections.map((s) => (
-        <Link
-          key={s.href}
-          href={s.href}
-          className="rounded-card bg-card p-6 transition-colors hover:bg-card/70"
-        >
-          <h2 className="text-lg text-navy">{s.title}</h2>
-          <p className="mt-2 text-sm text-navy/70">{s.description}</p>
-        </Link>
+        <DashboardCard key={s.href} href={s.href} title={s.title} description={s.description} />
       ))}
     </div>
   );
