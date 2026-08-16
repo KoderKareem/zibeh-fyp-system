@@ -11,7 +11,7 @@ type Package = {
   id: string;
   status: "pending" | "approved" | "rejected";
   student_id: string;
-  supervisor_id: string;
+  supervisor_id: string | null;
   session_id: string;
   created_at: string;
   decided_at: string | null;
@@ -65,7 +65,9 @@ export default async function AdminDashboardPage(props: PageProps<"/admin/dashbo
   const { data: packages } = await query.returns<Package[]>();
   const results = packages ?? [];
 
-  const profileIds = [...new Set(results.flatMap((p) => [p.student_id, p.supervisor_id]))];
+  const profileIds = [
+    ...new Set(results.flatMap((p) => [p.student_id, p.supervisor_id]).filter((id): id is string => !!id)),
+  ];
   const { data: profileRows } = profileIds.length
     ? await supabase.from("profiles").select("id, full_name").in("id", profileIds)
     : { data: [] as { id: string; full_name: string }[] };
@@ -164,7 +166,9 @@ export default async function AdminDashboardPage(props: PageProps<"/admin/dashbo
               results.map((pkg) => (
                 <tr key={pkg.id} className="border-b border-navy/5 last:border-0">
                   <td className="px-4 py-3 text-navy">{nameById.get(pkg.student_id) ?? "—"}</td>
-                  <td className="px-4 py-3 text-navy">{nameById.get(pkg.supervisor_id) ?? "—"}</td>
+                  <td className="px-4 py-3 text-navy">
+                    {pkg.supervisor_id ? (nameById.get(pkg.supervisor_id) ?? "—") : "Unassigned"}
+                  </td>
                   <td className="px-4 py-3 text-navy/70">{sessionLabelById.get(pkg.session_id) ?? "—"}</td>
                   <td className="px-4 py-3">
                     <span className={`rounded-full px-3 py-1 text-xs font-semibold ${STATUS_STYLE[pkg.status]}`}>

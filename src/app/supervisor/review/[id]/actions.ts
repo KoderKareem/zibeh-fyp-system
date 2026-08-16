@@ -28,6 +28,9 @@ export async function decidePackage(
   }
 
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   const decidedAt = new Date().toISOString();
 
   const { error } = await supabase
@@ -39,12 +42,14 @@ export async function decidePackage(
             approved_topic_id: topicId,
             supervisor_comment: comment,
             decided_at: decidedAt,
+            decided_by: user!.id,
           }
         : {
             status: "rejected",
             approved_topic_id: null,
             supervisor_comment: comment,
             decided_at: decidedAt,
+            decided_by: user!.id,
           },
     )
     .eq("id", packageId);

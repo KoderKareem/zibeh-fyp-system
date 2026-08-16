@@ -2,6 +2,11 @@ import { DashboardCard } from "@/components/dashboard-card";
 
 const sections = [
   {
+    href: "/admin/submissions/pending",
+    title: "Pending topic submissions",
+    description: "New submissions with no supervisor yet — delegate each one or decide it yourself.",
+  },
+  {
     href: "/admin/dashboard",
     title: "Submissions",
     description: "View and filter every submission package by status, department, supervisor, or session.",

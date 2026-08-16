@@ -17,43 +17,21 @@ export default async function SubmitPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const [{ data: profile }, { data: settings }, { data: pendingPackage }] =
-    await Promise.all([
-      supabase
-        .from("profiles")
-        .select("supervisor_id")
-        .eq("id", user!.id)
-        .single(),
-      supabase
-        .from("system_settings")
-        .select("submissions_open, active_session:academic_sessions(label)")
-        .eq("id", 1)
-        .single(),
-      supabase
-        .from("submission_packages")
-        .select("id")
-        .eq("student_id", user!.id)
-        .eq("status", "pending")
-        .maybeSingle(),
-    ]);
+  const [{ data: settings }, { data: pendingPackage }] = await Promise.all([
+    supabase
+      .from("system_settings")
+      .select("submissions_open, active_session:academic_sessions(label)")
+      .eq("id", 1)
+      .single(),
+    supabase
+      .from("submission_packages")
+      .select("id")
+      .eq("student_id", user!.id)
+      .eq("status", "pending")
+      .maybeSingle(),
+  ]);
 
-  const { data: supervisor } = profile?.supervisor_id
-    ? await supabase
-        .from("profiles")
-        .select("full_name")
-        .eq("id", profile.supervisor_id)
-        .single()
-    : { data: null };
   const activeSession = (settings?.active_session ?? null) as { label: string } | null;
-
-  if (!profile?.supervisor_id) {
-    return (
-      <Blocked>
-        You haven&apos;t been assigned a supervisor yet. Contact an
-        administrator before submitting your topics.
-      </Blocked>
-    );
-  }
 
   if (!settings?.submissions_open) {
     return <Blocked>Submissions are currently closed.</Blocked>;
@@ -77,8 +55,8 @@ export default async function SubmitPage() {
         <h2 className="text-lg text-navy">Submit your 3 topic options</h2>
         <p className="mt-1 text-sm text-navy/70">
           {activeSession ? `${activeSession.label} · ` : ""}
-          Supervisor: {supervisor?.full_name ?? "—"}. Your supervisor will
-          approve exactly one topic or reject the whole set.
+          An administrator will review your submission and either assign it to a
+          supervisor or decide it directly.
         </p>
       </div>
 

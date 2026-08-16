@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 type Package = {
   status: "pending" | "approved" | "rejected";
   session_id: string;
-  supervisor_id: string;
+  supervisor_id: string | null;
 };
 
 export default async function AdminReportsPage() {
@@ -41,6 +41,7 @@ export default async function AdminReportsPage() {
 
   const perSupervisor = new Map<string, number>();
   for (const row of rows) {
+    if (!row.supervisor_id) continue;
     perSupervisor.set(row.supervisor_id, (perSupervisor.get(row.supervisor_id) ?? 0) + 1);
   }
   const topSupervisors = [...perSupervisor.entries()]
