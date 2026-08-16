@@ -76,7 +76,12 @@ export default async function SupervisorDashboardPage() {
             ) : (
               results.map((pkg) => (
                 <tr key={pkg.id} className="border-b border-navy/5 last:border-0">
-                  <td className="px-4 py-3 text-navy">{studentNameById.get(pkg.student_id) ?? "—"}</td>
+                  <td className="px-4 py-3 text-navy">
+                    <span>{studentNameById.get(pkg.student_id) ?? "—"}</span>
+                    <span className="mt-0.5 block text-xs font-medium text-navy/50">
+                      Delegated by admin
+                    </span>
+                  </td>
                   <td className="px-4 py-3 text-navy/70">{sessionLabelById.get(pkg.session_id) ?? "—"}</td>
                   <td className="px-4 py-3">
                     <span className={`rounded-full px-3 py-1 text-xs font-semibold ${STATUS_STYLE[pkg.status]}`}>
