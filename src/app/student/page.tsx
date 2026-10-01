@@ -22,6 +22,12 @@ export default function StudentPage() {
         description="Submit your project chapter by chapter for your supervisor's approval."
         variant="secondary"
       />
+
+      <DashboardCard
+        href="/student/messages"
+        title="Messages"
+        description="Discuss your project privately with your supervisor."
+      />
     </div>
   );
 }

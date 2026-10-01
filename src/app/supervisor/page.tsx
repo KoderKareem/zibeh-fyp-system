@@ -15,6 +15,12 @@ export default function SupervisorPage() {
         title="Chapter submissions"
         description="Review your students' project chapters — approve each one or request a revision."
       />
+
+      <DashboardCard
+        href="/supervisor/messages"
+        title="Messages"
+        description="Private project discussion with each of your students."
+      />
     </div>
   );
 }
