@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { SiteHeader } from "@/components/site-header";
 
 export default function Home() {
@@ -20,24 +21,24 @@ export default function Home() {
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-4">
-          <a
+          <Link
             href="/register"
             className="rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-hover"
           >
             Get Started
-          </a>
-          <a
+          </Link>
+          <Link
             href="/login"
             className="rounded-full border border-navy/15 px-6 py-3 text-sm font-semibold text-navy transition-colors hover:bg-navy/5"
           >
             Log In
-          </a>
-          <a
+          </Link>
+          <Link
             href="/repository"
             className="rounded-full border border-navy/15 px-6 py-3 text-sm font-semibold text-navy transition-colors hover:bg-navy/5"
           >
             Browse Repository
-          </a>
+          </Link>
         </div>
 
         <div className="grid w-full gap-4 sm:grid-cols-2">
