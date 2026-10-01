@@ -6,6 +6,7 @@ import {
   REVIEW_STATUS_LABEL,
   REVIEW_STATUS_STYLE,
 } from "@/lib/status";
+import { CHAPTER_COUNT } from "@/lib/chapters";
 import { FinalProjectForm } from "./final-project-form";
 
 type Topic = {
@@ -71,13 +72,28 @@ export default async function StudentHistoryPage() {
 
   const approvedPackageIds = packages.filter((p) => p.status === "approved").map((p) => p.id);
   let finalProjectByPackageId = new Map<string, FinalProject>();
+  const approvedChapterCountByPackageId = new Map<string, number>();
   if (approvedPackageIds.length > 0) {
-    const { data: finalProjects } = await supabase
-      .from("repository_projects")
-      .select("id, submission_package_id, abstract, source_code_url, review_status, review_comment")
-      .in("submission_package_id", approvedPackageIds)
-      .returns<FinalProject[]>();
+    const [{ data: finalProjects }, { data: approvedChapters }] = await Promise.all([
+      supabase
+        .from("repository_projects")
+        .select("id, submission_package_id, abstract, source_code_url, review_status, review_comment")
+        .in("submission_package_id", approvedPackageIds)
+        .returns<FinalProject[]>(),
+      supabase
+        .from("project_chapters")
+        .select("package_id")
+        .in("package_id", approvedPackageIds)
+        .eq("status", "approved")
+        .returns<{ package_id: string }[]>(),
+    ]);
     finalProjectByPackageId = new Map((finalProjects ?? []).map((p) => [p.submission_package_id, p]));
+    for (const { package_id } of approvedChapters ?? []) {
+      approvedChapterCountByPackageId.set(
+        package_id,
+        (approvedChapterCountByPackageId.get(package_id) ?? 0) + 1,
+      );
+    }
   }
 
   return (
@@ -147,6 +163,25 @@ export default async function StudentHistoryPage() {
           {pkg.status === "approved" ? (() => {
             const approvedTopic = pkg.topics.find((t) => t.id === pkg.approved_topic_id);
             const finalProject = finalProjectByPackageId.get(pkg.id);
+
+            const approvedChapters = approvedChapterCountByPackageId.get(pkg.id) ?? 0;
+            if (!finalProject && approvedChapters < CHAPTER_COUNT) {
+              return (
+                <div className="mt-4">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-navy/50">
+                    Final project
+                  </p>
+                  <p className="mt-2 text-sm text-navy/70">
+                    Final project upload unlocks once all {CHAPTER_COUNT} chapters are approved (
+                    {approvedChapters} of {CHAPTER_COUNT} so far).{" "}
+                    <Link href="/student/chapters" className="font-semibold text-primary">
+                      Go to chapters
+                    </Link>
+                    .
+                  </p>
+                </div>
+              );
+            }
 
             if (!finalProject) {
               return (

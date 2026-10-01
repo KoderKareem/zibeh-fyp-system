@@ -15,6 +15,13 @@ export default function StudentPage() {
         description="Track the status of your past packages and read your supervisor's comments."
         variant="secondary"
       />
+
+      <DashboardCard
+        href="/student/chapters"
+        title="Project chapters"
+        description="Submit your project chapter by chapter for your supervisor's approval."
+        variant="secondary"
+      />
     </div>
   );
 }
